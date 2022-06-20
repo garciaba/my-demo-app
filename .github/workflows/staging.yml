@@ -16,15 +16,15 @@ on:
 
 env:
   ## Sets environment variables
-  GITHUB_PROJECT_URL: "" 
-  DOCKER_REPO_URL: ""
-  DT_URL: ""
-  DT_MZ_ID: ""
-  DT_DEV_DB_ID: ""
-  DT_STAGING_DB_ID: ""
-  DT_PROD_DB_ID: ""
-  DT_PRE_DB_ID: ""
-  DOCKER_TAG: ""
+  GITHUB_PROJECT_URL: "https://github.com/garciaba/my-demo-app/projects/1" 
+  DOCKER_REPO_URL: "https://hub.docker.com/repository/docker/miguelxoel/demoapp"
+  DT_URL: "https://lrd28544.dev.dynatracelabs.com"
+  DT_MZ_ID: "337043925493496772"
+  DT_DEV_DB_ID: "4d40ac97-b392-4f54-8a70-ff3387726203"
+  DT_STAGING_DB_ID: "24c8722e-c695-44ee-a704-80a38d123701"
+  DT_PROD_DB_ID: "6626d98a-571d-4882-a2f7-2fd7bd43ba29"
+  DT_PRE_DB_ID: "ae67aed6-82c5-4392-9b06-b89f12ab6a4c"
+  DOCKER_TAG: "miguelxoel/demoapp"
 
 
 
