@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <title>Dynatrace Slo Evaluation</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+      body {color: #ffffff;font-family: Arial, sans-serif;font-size:14px;-moz-transition-property: text-shadow;-moz-transition-duration: 4s;-webkit-transition-property: text-shadow;-webkit-transition-duration: 4s;text-shadow: none;}
+      body.blurry {-moz-transition-property: text-shadow;-moz-transition-duration: 4s;-webkit-transition-property: text-shadow;-webkit-transition-duration: 4s;text-shadow: #fff 0px 0px 25px;}
+      a {color: #55aaff;}
+      .textColumn, .linksColumn {padding: 2em;}
+      .textColumn {
+      background-color: #4AB9D9;
+		
+        position: absolute;top: 0px;right: 50%;bottom: 0px;left: 0px;
+        text-align: right;padding-top: 11em;}
+      .textColumn p {width: 75%;float:right;}
+      .linksColumn {position: absolute;top:0px;right: 0px;bottom: 0px;left: 50%;background-color: #33342D;}
+      .header{color: #33342D;font-size: 240%;font-weight: normal;margin-bottom: 0em;}
+      .header2{color: #33342D;font-size: 150%;font-weight: normal;margin-top: 20px;}
+      .header3{color: #33342D;font-size: 120%;font-weight: normal;margin-top: 20px;}
+      .footer1{color: #33342D;font-size: 100%;font-weight: normal;margin-top: 40px;position: absolute;bottom:30px}
+      h2{font-size: 200%;font-weight: normal;margin-bottom: 0em;}
+      ul {padding-left: 1em;margin: 0px;}
+      li {margin: 1em 0em;}
+      * { box-sizing: border-box; }
+      .column { float: left; width: 50.00%;  padding: 5px;} 
+      .row::after {content: "";clear: both;display: table;}
+      @font-face {
+	    font-family: 'BDCartoonShoutRegular';
+        src: url('BD_Cartoon_Shout-webfont.ttf') format('truetype');
+	    font-weight: normal;
+	    font-style: normal;
+      }
+      #pacman {
+        height:470px;
+        width:470px;
+        margin:10px auto;
+      }
+      #shim { 
+        font-family: BDCartoonShoutRegular; 
+        position:absolute;
+        visibility:hidden
+      }
+      h1 { font-family: BDCartoonShoutRegular; text-align:center; }
+      body { width:342px; margin:0px auto; font-family:sans-serif; }
+      a { text-decoration:none; }
+</style>
+    </style>
+  </head>
+  <body>
+    <div class="textColumn" style="text-align:center">
+      <div class="header">Demo Application Build BUILD_NUMBER</div>
+      <div class="header2">Was successfully deployed to (NAMESPACE)!</div>
+      <div style="margin-top:20px">
+  
+ 
+          <div class="header3">Monitored, Operated and Validated by</div>
+          <img src="https://dt-cdn.net/wp-content/uploads/2016/12/dynatrace_logo.png" style="padding-top:20px;width:25%">
+      
+      </div>
+
+      <div class="footer1">This page is served from HOSTNAME!</div>
+      </div>     
+    <div class="linksColumn">
+      <br> <br>  <br>  <br> <br> <br> 
+      <h1>Pacman</h1>
+    <div id="pacman"></div>
+    <script src="pacman.js"></script>
+    <script src="modernizr-1.5.min.js"></script>
+  
+    <script>
+  
+      var el = document.getElementById("pacman");
+  
+      if (Modernizr.canvas && Modernizr.localstorage && 
+          Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
+        window.setTimeout(function () { PACMAN.init(el, "./"); }, 0);
+      } else { 
+        el.innerHTML = "Sorry, needs a decent browser<br /><small>" + 
+          "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
+      }
+    </script>
+
+		
+    <script>	
+	    function getRESTEndpoint() {
+		  return window.location.href;
+		}
+		
+	    function executeCall(requestString, sleep) {
+          var sleepTime = $('#SleepTime').val();	  
+	      var fullURL = getRESTEndpoint() + requestString;
+		  if(fullURL.indexOf("?") > 0) fullURL = fullURL + "&sleep=" + sleepTime;
+		  else fullURL = fullURL + "?sleep=" + sleepTime;
+		  
+	      $.ajax({
+            url: fullURL
+          }).success(function(data) {
+             $('#result').text(data);
+          }).fail(function() {
+             $('#result').text("invoke failed!");
+	      });
+	    }
+		
+		$("#Echo").click(function () {	
+          var text = $('#SayText').val();	
+		  executeCall("api/echo?text=" + text);
+        });
+
+		$("#Invoke").click(function () {	
+          var text = $('#RemoteURL').val();		
+		  executeCall("api/invoke?url=" + text);
+        });
+		
+		$("#Version").click(function () {	
+		  executeCall("api/version");
+        });
+
+		$("#Login").click(function () {	
+		  var username = $('#Username').val();	
+		  var loggedinusername = $("#loggedinusername");
+		  if(loggedinusername.length <= 0) {
+		    $("<div id=\"usrhelparea\">You are now Logged in as user: <p id=\"loggedinusername\">" + username + "</p></div>").appendTo("#loginarea")
+		  } else {
+		    loggedinusername.text(username);
+		  }
+		  executeCall("api/login?username=" + username);
+        });
+		
+	</script>	
+	<script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/16c6bc5bd3b/bf12230xam/73d28eb44f5676db_complete.js" crossorigin="anonymous"></script>
+  </body>
+</html>
